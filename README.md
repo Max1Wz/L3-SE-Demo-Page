@@ -17,7 +17,7 @@ The complete source code will be released after the manuscript is accepted.
 
 The repository can be hosted with GitHub Pages or any static web server to provide online access to the demo page.
 
-**Demo URL:** `[https://anonymous.4open.science/w/L3-SE-Demo-Page-3BF6/](Demo Page)`
+**Demo URL:** `https://max1wz.github.io/L3-SE-Demo-Page/`
 
 ## Usage
 
