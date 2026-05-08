@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L3-SE Demo Page</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: rgba(255, 252, 247, 0.9);
+      --panel-strong: #fffaf2;
+      --text: #1f1f1f;
+      --muted: #645b50;
+      --line: rgba(88, 66, 38, 0.12);
+      --accent: #b46a2c;
+      --accent-soft: rgba(180, 106, 44, 0.12);
+      --error: #c5372f;
+      --shadow: 0 18px 45px rgba(68, 46, 21, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(222, 170, 104, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(163, 203, 181, 0.2), transparent 25%),
+        linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255, 249, 240, 0.95), rgba(249, 240, 227, 0.88));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 16px 0 10px;
+      max-width: 980px;
+      font-size: clamp(21px, 2.5vw, 30px);
+      line-height: 1.2;
+    }
+
+    .sample-list {
+      display: grid;
+      gap: 24px;
+    }
+
+    .sample-section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sample-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .sample-title-wrap {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sample-id {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    .sample-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ref-box {
+      min-width: min(100%, 360px);
+      max-width: 520px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 16px;
+    }
+
+    .ref-label {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ref-text {
+      margin: 0;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .primary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .tail-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+
+    .card {
+      display: grid;
+      gap: 14px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      min-width: 0;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(67, 47, 20, 0.08);
+      border-color: rgba(180, 106, 44, 0.28);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .model-name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .wer-badge {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    audio {
+      width: 100%;
+      height: 40px;
+    }
+
+    .asr-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .asr-label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .asr-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .error {
+      color: var(--error);
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .primary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 20px, 1280px);
+        padding: 20px 0 36px;
+      }
+
+      .hero,
+      .sample-section {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .primary-grid,
+      .tail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">L3-SE Demo Page</div>
+      <h1>Reducing Linguistic Hallucination in LM-Based Speech Enhancement via Noise-Invariant Acoustic-Semantic Distillation</h1>
+    </section>
+
+    <div id="container" class="sample-list">
+      <div class="empty">Loading...</div>
+    </div>
+  </main>
+
+  <script>
+    const PRIMARY_MODELS = [
+      { key: "noisy", label: "Noisy" },
+      { key: "TF-GridNet", label: "TF-GridNet" },
+      { key: "BSRNN", label: "BSRNN" },
+      { key: "BSRNN-Flow", label: "BSRNN_Flow" },
+      { key: "PASE", label: "PASE" },
+      { key: "SenSE", label: "SenSE" },
+      { key: "AnyEnhance", label: "AnyEnhance" },
+      { key: "LLaSE-G1", label: "LLaSE-G1" },
+      { key: "UniSE", label: "UniSE" }
+    ];
+
+    const TAIL_MODELS = [
+      { key: "L3-SE(ours)", label: "L3-SE(ours)" },
+      { key: "clean", label: "clean" }
+    ];
+
+    fetch("wer.json")
+      .then((res) => res.text())
+      .then((text) => render(parseSequentialJson(text)))
+      .catch((error) => renderError(error));
+
+    function parseSequentialJson(text) {
+      const chunks = [];
+      let depth = 0;
+      let start = -1;
+      let inString = false;
+      let escaped = false;
+
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+
+        if (inString) {
+          if (escaped) {
+            escaped = false;
+          } else if (char === "\\") {
+            escaped = true;
+          } else if (char === "\"") {
+            inString = false;
+          }
+          continue;
+        }
+
+        if (char === "\"") {
+          inString = true;
+          continue;
+        }
+
+        if (char === "{") {
+          if (depth === 0) start = i;
+          depth += 1;
+        } else if (char === "}") {
+          depth -= 1;
+          if (depth === 0 && start !== -1) {
+            chunks.push(text.slice(start, i + 1));
+            start = -1;
+          }
+        }
+      }
+
+      return chunks.map((chunk) => JSON.parse(normalizeJsonChunk(chunk)));
+    }
+
+    function normalizeJsonChunk(chunk) {
+      return chunk
+        .replace(/("equal"\s*:\s*-?\d+)\s*("ref_len")/g, '$1, $2')
+        .replace(/,\s*([}\]])/g, "$1");
+    }
+
+    function render(samples) {
+      const container = document.getElementById("container");
+      container.innerHTML = "";
+
+      if (!samples.length) {
+        container.innerHTML = '<div class="empty">No sample found.</div>';
+        return;
+      }
+
+      samples
+        .filter((sample) => sample.utt_id !== "sample_0")
+        .sort((a, b) => extractSampleIndex(a.utt_id) - extractSampleIndex(b.utt_id))
+        .forEach((sample) => {
+          container.appendChild(createSampleSection(sample));
+        });
+
+      document.querySelectorAll("audio").forEach((audioEl) => {
+        audioEl.addEventListener("play", () => {
+          document.querySelectorAll("audio").forEach((other) => {
+            if (other !== audioEl) other.pause();
+          });
+        });
+      });
+    }
+
+    function createSampleSection(sample) {
+      const section = document.createElement("section");
+      section.className = "sample-section";
+
+      const refText = sample.results.clean?.ref_text || "";
+
+      section.innerHTML = `
+        <div class="sample-header">
+          <div class="sample-title-wrap">
+            <h2 class="sample-id">${escapeHtml(formatExampleLabel(sample.utt_id))}</h2>
+          </div>
+          <div class="ref-box">
+            <p class="ref-label">Reference</p>
+            <p class="ref-text">${escapeHtml(refText)}</p>
+          </div>
+        </div>
+      `;
+
+      const primaryGrid = document.createElement("div");
+      primaryGrid.className = "grid primary-grid";
+
+      PRIMARY_MODELS.forEach((model) => {
+        const info = sample.results[model.key];
+        if (!info) return;
+        primaryGrid.appendChild(createCard(sample.utt_id, model, info, refText));
+      });
+
+      const tailGrid = document.createElement("div");
+      tailGrid.className = "grid tail-grid";
+
+      TAIL_MODELS.forEach((model) => {
+        const info = sample.results[model.key];
+        if (!info) return;
+        tailGrid.appendChild(createCard(sample.utt_id, model, info, refText));
+      });
+
+      section.appendChild(primaryGrid);
+      section.appendChild(tailGrid);
+      return section;
+    }
+
+    function createCard(uttId, model, info, refText) {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const audioFile = `audio/${uttId}_${model.key}.wav`;
+      const werText = typeof info.wer === "number" ? `WER ${(info.wer * 100).toFixed(1)}%` : "WER -";
+
+      card.innerHTML = `
+        <div class="card-top">
+          <h3 class="model-name">${escapeHtml(model.label)}</h3>
+          <span class="wer-badge">${escapeHtml(werText)}</span>
+        </div>
+        <audio controls preload="none" src="${encodeURI(audioFile)}"></audio>
+        <div class="asr-block">
+          <p class="asr-label">ASR Transcript</p>
+          <p class="asr-text">${highlightDiff(refText, info.hyp_text || "")}</p>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function highlightDiff(refText, hypText) {
+      const refWords = tokenize(refText);
+      const hypWords = tokenize(hypText);
+      const ops = alignWords(refWords, hypWords);
+      const output = [];
+
+      ops.forEach((op) => {
+        if (op.type === "equal") {
+          output.push(escapeHtml(op.word));
+        } else if (op.type === "replace" || op.type === "insert") {
+          output.push(`<span class="error">${escapeHtml(op.word)}</span>`);
+        }
+      });
+
+      return output.join(" ");
+    }
+
+    function alignWords(refWords, hypWords) {
+      const m = refWords.length;
+      const n = hypWords.length;
+      const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+      for (let i = 0; i <= m; i += 1) dp[i][0] = i;
+      for (let j = 0; j <= n; j += 1) dp[0][j] = j;
+
+      for (let i = 1; i <= m; i += 1) {
+        for (let j = 1; j <= n; j += 1) {
+          if (refWords[i - 1] === hypWords[j - 1]) {
+            dp[i][j] = dp[i - 1][j - 1];
+          } else {
+            dp[i][j] = Math.min(
+              dp[i - 1][j - 1] + 1,
+              dp[i - 1][j] + 1,
+              dp[i][j - 1] + 1
+            );
+          }
+        }
+      }
+
+      const ops = [];
+      let i = m;
+      let j = n;
+
+      while (i > 0 || j > 0) {
+        if (i > 0 && j > 0 && refWords[i - 1] === hypWords[j - 1]) {
+          ops.push({ type: "equal", word: hypWords[j - 1] });
+          i -= 1;
+          j -= 1;
+          continue;
+        }
+
+        const replaceCost = i > 0 && j > 0 ? dp[i - 1][j - 1] : Number.POSITIVE_INFINITY;
+        const deleteCost = i > 0 ? dp[i - 1][j] : Number.POSITIVE_INFINITY;
+        const insertCost = j > 0 ? dp[i][j - 1] : Number.POSITIVE_INFINITY;
+        const bestCost = Math.min(replaceCost, deleteCost, insertCost);
+
+        if (j > 0 && i > 0 && replaceCost === bestCost) {
+          ops.push({ type: "replace", word: hypWords[j - 1] });
+          i -= 1;
+          j -= 1;
+        } else if (j > 0 && insertCost === bestCost) {
+          ops.push({ type: "insert", word: hypWords[j - 1] });
+          j -= 1;
+        } else {
+          i -= 1;
+        }
+      }
+
+      return ops.reverse();
+    }
+
+    function tokenize(text) {
+      return text.trim().split(/\s+/).filter(Boolean);
+    }
+
+    function extractSampleIndex(uttId) {
+      const match = String(uttId).match(/(\d+)$/);
+      return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+    }
+
+    function formatExampleLabel(uttId) {
+      const index = extractSampleIndex(uttId);
+      return Number.isFinite(index) && index !== Number.MAX_SAFE_INTEGER
+        ? `Example ${index}`
+        : String(uttId);
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function renderError(error) {
+      const container = document.getElementById("container");
+      container.innerHTML = `<div class="empty">Failed to load page data: ${escapeHtml(error.message || String(error))}</div>`;
+    }
+  </script>
+</body>
+</html>
