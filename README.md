@@ -8,7 +8,6 @@ The complete source code will be released after the manuscript is accepted.
 
 ## Contents
 
-- `Appendix.pdf`: supplementary appendix
 - `index.html`: demo page entry point
 - `wer.json`: metadata and transcription results used by the demo page
 - `audio/`: audio samples used by the demo page
